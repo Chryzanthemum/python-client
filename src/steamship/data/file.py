@@ -165,7 +165,7 @@ class File(CamelModel):
 
         # Defaulting this here, as opposed to in the Engine, because it is processed by Vapor
         return client.post(
-            "file/create",
+            operation="file/create",
             payload=req,
             file=file_data,
             expect=File,
