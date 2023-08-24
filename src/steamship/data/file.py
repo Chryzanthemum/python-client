@@ -186,7 +186,7 @@ class File(CamelModel):
             "pluginInstance": plugin_instance,
         }
 
-        return client.post("file/create", payload=req, expect=File, as_background_task=True)
+        return client.post(operation="file/create", payload=req, expect=File, as_background_task=True)
 
     def import_with_plugin(
         self,
@@ -203,7 +203,7 @@ class File(CamelModel):
             "pluginInstance": plugin_instance,
         }
 
-        return self.client.post("file/import", payload=req, expect=File, as_background_task=True)
+        return self.client.post(operation="file/import", payload=req, expect=File, as_background_task=True)
 
     def refresh(self) -> File:
         refreshed = File.get(self.client, self.id)
@@ -221,7 +221,7 @@ class File(CamelModel):
 
         req = FileQueryRequest(tag_filter_query=tag_filter_query)
         res = client.post(
-            "file/query",
+            operation="file/query",
             payload=req,
             expect=FileQueryResponse,
         )
@@ -229,7 +229,7 @@ class File(CamelModel):
 
     def raw(self):
         return self.client.post(
-            "file/raw",
+            operation="file/raw",
             payload=GetRequest(
                 id=self.id,
             ),
@@ -253,7 +253,7 @@ class File(CamelModel):
         req = BlockifyRequest(type="file", id=self.id, plugin_instance=plugin_instance)
 
         return self.client.post(
-            "plugin/instance/blockify",
+            operation="plugin/instance/blockify",
             payload=req,
             expect=BlockAndTagPluginOutput,
             wait_on_tasks=wait_on_tasks,
@@ -269,7 +269,7 @@ class File(CamelModel):
 
         req = TagRequest(type=PluginTargetType.FILE, id=self.id, plugin_instance=plugin_instance)
         return self.client.post(
-            "plugin/instance/tag", payload=req, expect=TagResponse, wait_on_tasks=wait_on_tasks
+            operation="plugin/instance/tag", payload=req, expect=TagResponse, wait_on_tasks=wait_on_tasks
         )
 
     def generate(
@@ -303,7 +303,7 @@ class File(CamelModel):
             make_output_public=make_output_public,
         )
         return self.client.post(
-            "plugin/instance/generate", req, expect=GenerateResponse, wait_on_tasks=wait_on_tasks
+            operation="plugin/instance/generate", req, expect=GenerateResponse, wait_on_tasks=wait_on_tasks
         )
 
     def index(self, plugin_instance: Any = None) -> EmbeddingIndex:
