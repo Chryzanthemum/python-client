@@ -303,7 +303,7 @@ class File(CamelModel):
             make_output_public=make_output_public,
         )
         return self.client.post(
-            operation="plugin/instance/generate", req, expect=GenerateResponse, wait_on_tasks=wait_on_tasks
+            "plugin/instance/generate", req, expect=GenerateResponse, wait_on_tasks=wait_on_tasks
         )
 
     def index(self, plugin_instance: Any = None) -> EmbeddingIndex:
